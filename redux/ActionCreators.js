@@ -1,7 +1,8 @@
+
 import * as ActionTypes from './ActionTypes';
 import { baseUrl } from '../shared/baseUrl';
 
-export const fetchComments = () => dispatch => {
+export const fetchComments = () => dispatch => {  
     return fetch(baseUrl + 'comments')
         .then(response => {
                 if (response.ok) {
@@ -21,10 +22,12 @@ export const fetchComments = () => dispatch => {
         .catch(error => dispatch(commentsFailed(error.message)));
 };
 
+
 export const commentsFailed = errMess => ({
     type: ActionTypes.COMMENTS_FAILED,
     payload: errMess
 });
+
 
 export const addComments = (comments) => ({
     type: ActionTypes.ADD_COMMENTS,
@@ -95,15 +98,18 @@ export const promotionsLoading = () => ({
     type: ActionTypes.PROMOTIONS_LOADING
 });
 
+
 export const promotionsFailed = errMess => ({
     type: ActionTypes.PROMOTIONS_FAILED,
     payload: errMess
 });
 
+
 export const addPromotions = promotions => ({
     type: ActionTypes.ADD_PROMOTIONS,
     payload: promotions
 });
+
 
 export const fetchPartners = () => dispatch => {
     
@@ -145,10 +151,35 @@ export const addPartners = partners => ({
 export const postFavorite = campsiteId => dispatch => {
     setTimeout(() => {
         dispatch(addFavorite(campsiteId));
-    }, 2000);
+    }, 2000)
 };
 
 export const addFavorite = campsiteId => ({
     type: ActionTypes.ADD_FAVORITE,
     payload: campsiteId
 });
+
+export const postComment = (campsiteId, rating, author, text) => dispatch => {  //Workshop week 2
+
+    console.log(campsiteId, rating, author, text);
+    
+    const newComment = {
+        campsiteId,
+        rating,
+        author,
+        text,
+        date: new Date().toISOString()
+    }
+
+    console.log(newComment);
+
+    setTimeout(() => {
+        dispatch(addComment(newComment));
+    }, 2000)
+};
+
+
+export const addComment = comment => ({
+    type: ActionTypes.ADD_COMMENT,
+    payload: comment
+})
